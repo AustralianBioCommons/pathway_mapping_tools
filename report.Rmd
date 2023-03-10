@@ -1,0 +1,76 @@
+---
+title: Pathway mapping software for proteomics and metabolomics
+output:
+  html_document:
+    theme: united
+    highlight: tango
+---
+
+## Search steps
+
+**Step 1.**
+
+Access API for [bio.tools](https://bio.tools/) registry and retrieve metadata for the two following `operations`:
+
+- [`operation_3926`: pathway visualisation](https://edamontology.github.io/edam-browser/#operation_3926), and
+- [`operation_3928`: pathway analysis](https://edamontology.github.io/edam-browser/#operation_3928)
+
+**Step 2.**
+
+Filter the resulting metadata for the `topics`:
+
+- [`proteomics`](https://edamontology.github.io/edam-browser/#topic_0121), and
+- [`metabolomics`](https://edamontology.github.io/edam-browser/#topic_3172).
+
+---
+
+## Interactive table
+
+```{r setup, include=FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+data <- read_csv("returned_biotools_table.csv")
+```
+
+
+
+```{r}
+data %>%
+    filter(grepl(pattern = "[Pp]roteomics|[Mm]etabolomics", topic)) %>%
+    distinct(name_biotools_link, .keep_all = TRUE) %>%
+    mutate(name_sort = tolower(name_biotools_link)) %>%
+    arrange(name_sort) %>%
+    select(2:6) %>%
+    datatable(extensions = 'Buttons',
+            rownames = FALSE,
+            options = list(
+              pageLength = nrow(data),
+              dom = 'Bfrtip',
+              buttons = c('copy', 'csv', I('colvis')),
+              #see https://stackoverflow.com/a/32428537
+              columnDefs = list(list(visible=FALSE, targets = c(4)),
+                           list(className = 'dt-center', targets = c(0:4)))
+            ),
+              class = 'cell-border stripe', escape = FALSE)
+```
+
+## Attributions
+
+- [Python code](main.py) using `math`, `pandas`, `requests` & `json`
+- [R code](main.R) using `rmarkdown`, `DT` & `tidyverse` - see session information below as well
+- [ToolFinder script](https://github.com/AustralianBioCommons/australianbiocommons.github.io/blob/84b42b19370ab8133453c4757ba5edffc62ce360/finders/toolfinder.py)
+- See [ToolFinder license](https://github.com/AustralianBioCommons/australianbiocommons.github.io/blob/c759d99a32f4d345e3601c7113a1951cd54d825e/LICENSE)
+- [bio.tools API](https://biotools.readthedocs.io/en/latest/api_reference.html)
+- [EDAM ontology GitHub](https://github.com/edamontology/edamontology)
+- [Appearance & style](https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style)
+
+## References
+
+> Ison, J. et al. (2015). Tools and data services registry: a community effort to document bioinformatics resources. Nucleic Acids Research. [DOI](https://doi.org/10.1093/nar/gkv1116)
+
+> Ison, J., Kalaš, M., Jonassen, I., Bolser, D., Uludag, M., McWilliam, H., Malone, J., Lopez, R., Pettifer, S. and Rice, P. 2013. EDAM: an ontology of bioinformatics operations, types of data and identifiers, topics and formats. Bioinformatics, 29(10): 1325-1332. [DOI](https://doi.org/10.1093/bioinformatics/btt113) PMID: 23479348 *Open Access*
+
+## Session information
+
+```{r}
+sessionInfo()
+```

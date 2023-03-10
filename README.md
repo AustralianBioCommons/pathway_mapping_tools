@@ -5,17 +5,16 @@ FindPathwayMappingTools for finding proteomics and metabolomics software
 
 > Recommendations on using the workflow: for example, based on data set size, infrastructure suitability.
 
----
-
-# Resources available here
-
-
 
 ---
 
 # Attributions
 
-The guideline template is supported by the Australian BioCommons via Bioplatforms Australia funding, the Australian Research Data Commons (https://doi.org/10.47486/PL105) and the Queensland Government RICF programme. Bioplatforms Australia and the Australian Research Data Commons are enabled by the National Collaborative Research Infrastructure Strategy (NCRIS).
+This work is supported by the Australian BioCommons which is enabled by NCRIS via Bioplatforms Australia funding.
+
+## Repository template
+
+The guideline template used is supported by the Australian BioCommons via Bioplatforms Australia funding, the Australian Research Data Commons (https://doi.org/10.47486/PL105) and the Queensland Government RICF programme. Bioplatforms Australia and the Australian Research Data Commons are enabled by the National Collaborative Research Infrastructure Strategy (NCRIS).
 
 The BioCommons would also like to acknowledge the contributions of the following individuals and institutions to these documentation guidelines:
 

@@ -53,20 +53,25 @@ def get_biotools_results_for_search_term(term, search_type):
         data = available_data[i]
         tool_line = []
         tool_line.append("<a href='https://bio.tools/%s'>%s</a>" % (data["biotoolsID"], data["name"]))
-        tool_line.append("<br \>".join(x["term"] for x in data["function"][0]["operation"]))
-        tool_line.append("<br \>".join(x["term"] for x in data["topic"]))
+        tool_line.append(", ".join(x["term"] for x in data["function"][0]["operation"]))
+        tool_line.append(", ".join(x["term"] for x in data["topic"]))
         if isinstance(data["publication"], list):
-            tool_line.append("<br \>".join(list(map(lambda x:f"""<a href="https://doi.org/{x["doi"]}">{x["metadata"]["title"] if x["metadata"] is not None else "DOI:" + x["doi"]}</a>""" if x["doi"] is not None else
+            tool_line.append(", ".join(list(map(lambda x:f"""<a href="https://doi.org/{x["doi"]}">{x["metadata"]["title"] if x["metadata"] is not None else "DOI:" + x["doi"]}</a>""" if x["doi"] is not None else
                                                 f"""<a href="http://www.ncbi.nlm.nih.gov/pubmed/{x["pmid"]}" >{x["metadata"]["title"] if x["metadata"] is not None else "PMID:" + x["pmid"]}</a>""" if x["pmid"] is not None else
                                                 f"""<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/{x["pmcid"]}" >{x["metadata"]["title"] if x["metadata"] is not None else "PMCID:" + x["pmcid"]}</a>""" if x["pmcid"] is not None else "",
                                                 data["publication"]))))
         else:
             tool_line.append("")
-        tool_line.append("<br \>".join(["""<p>%s</p>""" % x for x in data["language"]]))
+        tool_line.append(", ".join(["""<p>%s</p>""" % x for x in data["language"]]))
+        if isinstance(data["publication"], list):
+            tool_line.append(", ".join(list(map(lambda x:f"""https://doi.org/{x["doi"]}""" if x["doi"] is not None else
+                                                f"""http://www.ncbi.nlm.nih.gov/pubmed/{x["pmid"]}""" if x["pmid"] is not None else
+                                                f"""https://www.ncbi.nlm.nih.gov/pmc/articles/{x["pmcid"]}""" if x["pmcid"] is not None else "",
+                                                data["publication"]))))
         tool_line.append(term)
         tool_line.append(search_type)
         formatted_list.append(tool_line)
 
-    table = pd.DataFrame(formatted_list, columns = ["name_biotools_link", "operation", "topic", "publication", "language", "search term ID", "search_type"])
+    table = pd.DataFrame(formatted_list, columns = ["name_biotools_link", "operation", "topic", "publication", "language", "publication_url", "search term ID", "search_type"])
 
     return(table)

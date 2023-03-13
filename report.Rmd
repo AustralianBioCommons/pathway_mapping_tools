@@ -39,7 +39,7 @@ data %>%
     distinct(name_biotools_link, .keep_all = TRUE) %>%
     mutate(name_sort = tolower(name_biotools_link)) %>%
     arrange(name_sort) %>%
-    select(2:6) %>%
+    select(2:7) %>%
     datatable(extensions = 'Buttons',
             rownames = FALSE,
             options = list(
@@ -47,7 +47,7 @@ data %>%
               dom = 'Bfrtip',
               buttons = c('copy', 'csv', I('colvis')),
               #see https://stackoverflow.com/a/32428537
-              columnDefs = list(list(visible=FALSE, targets = c(4)),
+              columnDefs = list(list(visible=FALSE, targets = c(4,5)),
                            list(className = 'dt-center', targets = c(0:4)))
             ),
               class = 'cell-border stripe', escape = FALSE)

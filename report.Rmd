@@ -10,17 +10,20 @@ output:
 
 **Step 1.**
 
-Access API for [bio.tools](https://bio.tools/) registry and retrieve metadata for the two following `operations`:
+Access API for [bio.tools](https://bio.tools/) registry and retrieve metadata for the two following `operations` and `topics`:
 
-- [`operation_3926`: pathway visualisation](https://edamontology.github.io/edam-browser/#operation_3926), and
+- [`operation_3926`: pathway visualisation](https://edamontology.github.io/edam-browser/#operation_3926)
 - [`operation_3928`: pathway analysis](https://edamontology.github.io/edam-browser/#operation_3928)
+- [`operation_0276`: Protein interaction network analysis](https://edamontology.github.io/edam-browser/#operation_0276)
+- [`operation_3929`: Metabolic pathway prediction](https://edamontology.github.io/edam-browser/#operation_3929)
+- [`topic_0602`: Molecular interactions, pathways and networks](https://edamontology.github.io/edam-browser/#topic_0602)
 
 **Step 2.**
 
 Filter the resulting metadata for the `topics`:
 
-- [`proteomics`](https://edamontology.github.io/edam-browser/#topic_0121), and
-- [`metabolomics`](https://edamontology.github.io/edam-browser/#topic_3172).
+- [`proteomics`](https://edamontology.github.io/edam-browser/#topic_0121)
+- [`metabolomics`](https://edamontology.github.io/edam-browser/#topic_3172)
 
 ---
 

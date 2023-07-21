@@ -40,6 +40,7 @@ def get_biotools_results_for_search_term(term, search_type):
     available_data = {}
     # see https://stackoverflow.com/a/72861816
     for page, url in url_array:
+        print(page, " / ", number_pages)
         response = requests.get(url)
         if response.status_code != 200:
             raise FileNotFoundError(response.url)
@@ -51,9 +52,21 @@ def get_biotools_results_for_search_term(term, search_type):
     formatted_list = []
     for i in available_data:
         data = available_data[i]
+        #print(i)
         tool_line = []
         tool_line.append("<a href='https://bio.tools/%s'>%s</a>" % (data["biotoolsID"], data["name"]))
-        tool_line.append(", ".join(x["term"] for x in data["function"][0]["operation"]))
+        tool_line.append(data["description"])
+        tool_line.append(data["license"])
+        #if isinstance(data["function"][0]["operation"], list):
+        #operations = data["function"][0]["operation"]
+        #a = ", ".join(x["term"] for x in operations)
+        # https://stackoverflow.com/a/53522
+        if data['function']:
+            if isinstance(data["function"][0]["operation"], list):
+                tool_line.append(", ".join(x["term"] for x in data["function"][0]["operation"]))
+        else:
+            tool_line.append("")
+        #if isinstance(data["topic"], list):
         tool_line.append(", ".join(x["term"] for x in data["topic"]))
         if isinstance(data["publication"], list):
             tool_line.append(", ".join(list(map(lambda x:f"""<a href="https://doi.org/{x["doi"]}">{x["metadata"]["title"] if x["metadata"] is not None else "DOI:" + x["doi"]}</a>""" if x["doi"] is not None else
@@ -62,7 +75,7 @@ def get_biotools_results_for_search_term(term, search_type):
                                                 data["publication"]))))
         else:
             tool_line.append("")
-        tool_line.append(", ".join(["""<p>%s</p>""" % x for x in data["language"]]))
+        tool_line.append(", ".join(["""%s""" % x for x in data["language"]]))
         if isinstance(data["publication"], list):
             tool_line.append(", ".join(list(map(lambda x:f"""https://doi.org/{x["doi"]}""" if x["doi"] is not None else
                                                 f"""http://www.ncbi.nlm.nih.gov/pubmed/{x["pmid"]}""" if x["pmid"] is not None else
@@ -72,6 +85,6 @@ def get_biotools_results_for_search_term(term, search_type):
         tool_line.append(search_type)
         formatted_list.append(tool_line)
 
-    table = pd.DataFrame(formatted_list, columns = ["name_biotools_link", "operation", "topic", "publication", "language", "publication_url", "search term ID", "search_type"])
+    table = pd.DataFrame(formatted_list, columns = ["name_biotools_link", "description", "license", "operation", "topic", "publication", "language", "publication_url", "search term ID", "search_type"])
 
     return(table)
